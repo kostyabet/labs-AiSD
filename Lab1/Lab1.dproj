@@ -89,6 +89,13 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
+        <DCCReference Include="Source\Velthuis.Sizes.pas"/>
+        <DCCReference Include="Source\Velthuis.FloatUtils.pas"/>
+        <DCCReference Include="Source\Velthuis.StrConsts.pas"/>
+        <DCCReference Include="Source\Velthuis.Numerics.pas"/>
+        <DCCReference Include="Source\CompilerAndRTLVersions.pas"/>
+        <DCCReference Include="Source\Velthuis.RandomNumbers.pas"/>
+        <DCCReference Include="Source\Velthuis.BigIntegers.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
