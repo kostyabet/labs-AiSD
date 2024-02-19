@@ -60,7 +60,7 @@ Var
     I, Temp: Integer;
     Prompt: String;
 Begin
-    For I := Size DownTo 1 Do
+    For I := Size DownTo 0 Do
     Begin
         Prompt := 'Write your a' + IntToStr(I) + ': ';
         Temp := InputNum(Prompt, MIN, MAX);
@@ -88,7 +88,8 @@ Begin
         Else
             Write(X^.Data);
 
-        Write('*x^', X^.Degree);
+        If X^.Next <> Nil Then
+            Write('*x^', X^.Degree);
         X := X^.Next;
     End;
     Write(#13#10);
@@ -179,93 +180,34 @@ End;
 
 Procedure ClickLoager;
 Begin
-    Writeln('Press any key to continue...');
+    Writeln(#13#10'Press any key to continue...');
     Readln;
     Readln;
 End;
 
-Procedure EqualityFuncProcces;
-Var
-    P1, P2: Pt; { * Pointer on first element of list * }
-    Size: Integer; { * Number of elements * }
-Begin
-    Size := InputNum(#13#10'Input number of P1 elements: ', MIN_SIZE, MAX_SIZE);
-    New(P1);
-    Writeln('Input P1.');
-    Make(P1, Size, MIN_X, MAX_X);
-    Size := InputNum(#13#10'Input number of P2 elements: ', MIN_SIZE, MAX_SIZE);
-    New(P2);
-    Writeln('Input P2.');
-    Make(P2, Size, MIN_X, MAX_X);
-    Write(#13#10'P1: ');
-    Print(P1^.Next);
-    Write('P2: ');
-    Print(P2^.Next);
-    Writeln('Equality of P1 And P2: ', Equality(P1^.Next, P2^.Next));
-End;
-
-Procedure MeaningFuncProcess;
-Var
-    P1, P2: Pt; { * Pointer on first element of list * }
-    Size: Integer; { * Number of elements * }
-    X: Integer;
-    P1Result: BigInteger;
-Begin
-    Size := InputNum(#13#10'Input number of P1 elements: ', MIN_SIZE, MAX_SIZE);
-    New(P1);
-    Writeln('Input P1.');
-    Make(P1, Size, MIN_X, MAX_X);
-    X := InputNum(#13#10'Input X-Pointer for P1: ', MIN_X, MAX_X);
-    P1Result := Meaning(P1^.Next, X);
-    Write(#13#10'P1: ');
-    Print(P1^.Next);
-    Writeln('At X=', X, ' the result is: ', P1Result.ToString);
-End;
-
-Procedure AddProcProcess;
-Var
-    P1, P2, P3: Pt; { * Pointer on first element of list * }
-    Size: Integer; { * Number of elements * }
-    X: Integer;
-    P1Result: BigInteger;
-Begin
-    Size := InputNum(#13#10'Input number of P1 elements: ', MIN_SIZE, MAX_SIZE);
-    New(P1);
-    Writeln('Input P1.');
-    Make(P1, Size, MIN_X, MAX_X);
-    Size := InputNum(#13#10'Input number of P2 elements: ', MIN_SIZE, MAX_SIZE);
-    New(P2);
-    Writeln('Input P2.');
-    Make(P2, Size, MIN_X, MAX_X);
-    New(P3);
-    Add(P1^.Next, P2^.Next, P3);
-    Write(#13#10'P1: ');
-    Print(P1^.Next);
-    Write('P2: ');
-    Print(P2^.Next);
-    Write('P1 + P2: ');
-    Print(P3^.Next);
-End;
-
-Procedure WorkWithMethod(CurentMethod: Integer; Var CurentButton: MainMenu);
+Procedure WorkWithMethod(CurentMethod: Integer; Var CurentButton: MainMenu; EqualityResult: Boolean;
+    P1Result, P2Result, P3Result: BigInteger; X: Integer; P3: Pt);
 Begin
     Case CurentMethod Of
         Integer(FuncEquality):
             Begin
                 CurentButton := FuncEquality;
-                EqualityFuncProcces;
+                Writeln('Equality of P1 And P2: ', EqualityResult);
                 ClickLoager;
             End;
         Integer(FuncMeaning):
             Begin
                 CurentButton := FuncMeaning;
-                MeaningFuncProcess;
+                Writeln('For P1. At X=', X, ' the result is: ', P1Result.ToString);
+                Writeln('For P2. At X=', X, ' the result is: ', P2Result.ToString);
+                Writeln('For P3. At X=', X, ' the result is: ', P3Result.ToString);
                 ClickLoager;
             End;
         Integer(ProcAdd):
             Begin
                 CurentButton := ProcAdd;
-                AddProcProcess;
+                Write('P1 + P2 = ');
+                Print(P3^.Next);
                 ClickLoager;
             End;
     Else
@@ -274,17 +216,53 @@ Begin
 End;
 
 Var
+    P1Result, P2Result, P3Result: BigInteger;
     CurentNumOfRow: Integer;
     CurentButton: MainMenu;
+    Size, X: Integer;
+    P1, P2, P3: Pt;
+    EqualityResult: Boolean;
 
     //AiSD Lab 1
 Begin
+    Writeln('Lab 1.1, Betenya Kostya 351005.'#13#10);
+
+    Size := InputNum('Input number of P1 elements: ', MIN_SIZE, MAX_SIZE);
+    New(P1);
+    Writeln('Input P1.');
+    Make(P1, Size, MIN_X, MAX_X);
+    Write('P1: ');
+    Print(P1^.Next);
+
+    Size := InputNum(#13#10'Input number of P2 elements: ', MIN_SIZE, MAX_SIZE);
+    New(P2);
+    Writeln('Input P2.');
+    Make(P2, Size, MIN_X, MAX_X);
+    Write('P2: ');
+    Print(P2^.Next);
+
+    X := InputNum(#13#10'Input X-Pointer for P1: ', MIN_X, MAX_X);
+
+    EqualityResult := Equality(P1^.Next, P2^.Next);
+
+    New(P3);
+    Add(P1^.Next, P2^.Next, P3);
+
+    P1Result := Meaning(P1^.Next, X);
+    P2Result := Meaning(P2^.Next, X);
+    P3Result := Meaning(P3^.Next, X);
+
+    Writeln;
     Repeat
-        Write('Laboratory 1, Variant 1.', #13#10, #13#10, Integer(FuncEquality), ' - Function Equality;', #13#10, Integer(FuncMeaning),
-            ' - Function Meaning;', #13#10, Integer(ProcAdd), ' - Procedure Add;', #13#10, Integer(ExitButton), ' - Exit;');
-        CurentNumOfRow := InputNum(#13#10'Choose your varient of work: ', 1, 4);
-        WorkWithMethod(CurentNumOfRow, CurentButton);
+        Write(Integer(FuncEquality), ' - Function Equality;', #13#10, Integer(FuncMeaning), ' - Function Meaning;', #13#10,
+            Integer(ProcAdd), ' - Procedure Add;', #13#10, Integer(ExitButton), ' - Exit;');
+        CurentNumOfRow := InputNum(#13#10'Choose your varient of work: ', Integer(FuncEquality), Integer(ExitButton));
+        WorkWithMethod(CurentNumOfRow, CurentButton, EqualityResult, P1Result, P2Result, P3Result, X, P3);
     Until CurentButton = ExitButton;
     ClickLoager;
+
+    Dispose(P1);
+    Dispose(P2);
+    Dispose(P3);
 
 End.
