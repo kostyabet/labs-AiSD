@@ -1,4 +1,4 @@
-﻿Program Lab1;
+﻿Program Lab1_1;
 
 {$APPTYPE CONSOLE}
 {$R *.res}

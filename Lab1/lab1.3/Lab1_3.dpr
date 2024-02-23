@@ -89,29 +89,43 @@ End;
 Procedure FindPhoneNumbersByLastName(Head: PAbonent; LastName: String);
 Var
     CurrentAbonent: PAbonent;
+    IsFind: Boolean;
 Begin
+    IsFind := False;
     CurrentAbonent := Head;
     While CurrentAbonent <> Nil Do
     Begin
         If LastName = CurrentAbonent^.FullName Then
+        Begin
             Writeln('Subscribers phone number ', CurrentAbonent^.FullName, ' : ', CurrentAbonent^.PhoneNumber);
+            IsFind := True;
+        End;
         CurrentAbonent := CurrentAbonent^.Next;
     End;
+
+    If Not IsFind Then
+        Writeln('A subscriber with last name ', LastName, ' doesn''t find.');
 End;
 
 Function ReadCase(): TMainMenu;
 Var
     Num: Integer;
+    IsCorrect: Boolean;
 Begin
+    Num := 0;
+    IsCorrect := False;
+    Repeat
+        Try
+            Readln(Num);
 
-    Try
-        Readln(Num);
+            If (Num < Integer(ExitButton)) Or (Num > Integer(FByName)) Then
+                Raise Exception.Create('Number out of range!');
 
-        If (Num < Integer(ExitButton)) Or (Num > Integer(FByName)) Then
-            Raise Exception.Create('Number out of range!');
-    Except
-        Write('Error. Try again: ');
-    End;
+            IsCorrect := True;
+        Except
+            Write('Error. Try again: ');
+        End;
+    Until IsCorrect;
 
     Case Num Of
         Integer(FByName):
@@ -130,7 +144,6 @@ Var
     FullName, PhoneNumber, SearchPhoneNumber, SearchLastName: String;
     CurrentAbonent: PAbonent;
     Choose: TMainMenu;
-    IsCorrect: Boolean;
     Prompt: String;
 
 Begin
@@ -146,7 +159,7 @@ Begin
 
         If FullName <> ExitKey Then
         Begin
-            Write('Enter the subscribers phone number:');
+            Write('Enter the subscribers phone number: ');
             Readln(PhoneNumber);
 
             AddAbonentToList(Head, FullName, PhoneNumber);
@@ -163,7 +176,6 @@ Begin
 
     Repeat
         PrintTable();
-        IsCorrect := False;
         Choose := ReadCase();
 
         If (Choose = FByNumb) Then
