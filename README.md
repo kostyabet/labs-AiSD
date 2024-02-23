@@ -1,10 +1,12 @@
+[+] - сдал проверяющему.
+
 # labs-AiSD
 
  - [ ] Lab 1 (singly linked list)
- - - [x] Lab 1.1
- - - [ ] Lab 1.2
+ - - [x] Lab 1.1 [+]
+ - - [x] Lab 1.2
  - - [x] Lab 1.3
- - - [ ] Lab 1.4 
+ - - [x] Lab 1.4 
  - [ ] Lab 2
  - [ ] Lab 3
  - [ ] Lab 4
