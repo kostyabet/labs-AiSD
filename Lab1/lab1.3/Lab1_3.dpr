@@ -29,7 +29,7 @@ Begin
     Write('Choose function: ');
 End;
 
-Procedure AddAbonentToList(Var Head: PAbonent; FullName, PhoneNumber: String);
+Procedure AddAbonentInList(Var Head: PAbonent; FullName, PhoneNumber: String);
 Var
     NewAbonent, CurrentAbonent, PrevAbonent: PAbonent;
 Begin
@@ -162,7 +162,7 @@ Begin
             Write('Enter the subscribers phone number: ');
             Readln(PhoneNumber);
 
-            AddAbonentToList(Head, FullName, PhoneNumber);
+            AddAbonentInList(Head, FullName, PhoneNumber);
         End;
     Until FullName = ExitKey;
 

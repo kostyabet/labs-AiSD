@@ -1,6 +1,7 @@
 ﻿Program lab1_4;
 
 {$APPTYPE CONSOLE}
+{$R *.res}
 
 Uses
     SysUtils,
@@ -97,7 +98,7 @@ Var
     TempPt: DoubLinkPt;
     I, Size: Integer;
 Begin
-    Write('Enter the number of phone numbers:  ');
+    Write('Enter the number of phone numbers: ');
     Size := InputNumber(MAX_SIZE, MIN_SIZE);
 
     New(TempPt);
@@ -106,7 +107,7 @@ Begin
     For I := 1 To Size Do
     Begin
         DLTail := TempPt;
-        Write('Input phone number:  ');
+        Write('Input phone number: ');
         DLTail^.Data.Number := IntToStr(PhoneNumInput());
 
         If I <> Size Then
@@ -122,7 +123,7 @@ End;
 
 Procedure DefaultOutput(Head: DoubLinkPt);
 Begin
-    Writeln(#13#10'Default phone numbers:  ');
+    Writeln(#13#10'Default phone numbers: ');
     While Head <> Nil Do
     Begin
         Writeln(' ', Head^.Data.Abonent, ' ', Head^.Data.Number);
@@ -132,7 +133,7 @@ End;
 
 Procedure OutputFromRightToLeft(Tail: DoubLinkPt);
 Begin
-    Writeln(#13#10'From righ to left phone numbers:  ');
+    Writeln(#13#10'From righ to left phone numbers: ');
     While Tail <> Nil Do
     Begin
         Writeln(' ', Tail^.Data.Abonent, ' ', Tail^.Data.Number);
@@ -164,10 +165,10 @@ Var
     I, J: Integer;
     BufData: SingLinkElem;
 Begin
-    For J := 1 To Counter - 1 Do
+    For J := 1 To Counter Do
     Begin
         Tail := Head;
-        For I := 1 To Counter - J Do
+        For I := 1 To Counter - J + 1 Do
         Begin
             If Tail^.Data.Number > Tail^.Next^.Data.Number Then
             Begin
@@ -184,7 +185,7 @@ Procedure OutputSingleLinekdList(Var Head: SingLinkPt);
 Var
     ResStr: String;
 Begin
-    ResStr := #13#10'Single list of numbers: ';
+    ResStr := #13#10'Single list of abonents numbers: ';
 
     If Head = Nil Then
         ResStr := ResStr + 'empty...';
