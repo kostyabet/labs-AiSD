@@ -160,8 +160,7 @@ Var
     TermName, SubTermName: String;
     TermNode: PTermNode;
     SubTermHead: PTermNode;
-    PageNumber: Integer;
-    HashName, Page: UInt64;
+    Page: UInt64;
     PageArr: ArrInteger;
 Begin
 
@@ -175,17 +174,17 @@ Begin
         Else
             Break;
     End;
-    Writeln('Введите название подтермина который Вы хотите добавть: ');
+    Writeln('Enter the name of the subterminal you want to add: ');
     While True Do
     Begin
         Readln(SubTermName);
         If Check(SimpleHash(SubTermName), TermNode^.Data.SubTerms) = True Then
             Break
         Else
-            Writeln('Такой подтермин уже существует');
+            Writeln('Such a sub-term already exists');
     End;
     Page := 87654345678;
-    Write('Введите номера страниц(0 выход): ');
+    Write('Enter the page numbers(0 output): ');
     While Page <> 0 Do
     Begin
         If Page <> 87654345678 Then
@@ -203,7 +202,7 @@ Begin
         TermNode^.Data.SubTerms := SubTermHead;
     End
     Else
-        Writeln('Термин "', TermName, '" не найден в предметном указателе.');
+        Writeln('Term "', TermName, '" not found in the subject index.');
 End;
 
 Function InputName: String;
@@ -217,7 +216,7 @@ Begin
         If Length(Str) > 10 Then
         Begin
             IsCorrect := False;
-            Writeln('Длина названия термина не должна превышать 10 символов повторите ввод!');
+            Writeln('The length of the term name should not exceed 10 characters repeat the input!');
         End;
 
     Until IsCorrect;
@@ -234,7 +233,7 @@ Var
     NameHash: UInt64;
 Begin
     New(NewNode);
-    Write('Введите название термина: ');
+    Write('Enter the name of the term: ');
     While True Do
     Begin
         Name := InputName;
@@ -242,14 +241,14 @@ Begin
         If Check(NameHash, Index) = True Then
             Break
         Else
-            Writeln('Термин уже существует');
+            Writeln('The term already exists');
     End;
 
     NewNode^.Data.Hash := NameHash;
 
     NewNode^.Data.Name := Name;
     Page := 87654345678;
-    Write('Введите номера страниц(0 выход): ');
+    Write('Enter the page numbers(0 output): ');
     While Page <> 0 Do
     Begin
         If Page <> 87654345678 Then
@@ -277,21 +276,21 @@ Begin
     Current := Index;
     While Current <> Nil Do
     Begin
-        Write('Термин: ', Current^.Data.Name, #9, '   Номера страниц : ');
+        Write('Term: ', Current^.Data.Name, #9, '   Page numbers : ');
         For I := Low(Current^.Data.PageArray) To High(Current^.Data.PageArray) Do
             Write(Current^.Data.PageArray[I], ' ');
         Writeln;
         SubTermCurrent := Current^.Data.SubTerms;
         While SubTermCurrent <> Nil Do
         Begin
-            Write('   Подтермин: ', SubTermCurrent^.Data.Name, '            ', '   Номера страниц : ');
+            Write('   Subterminal: ', SubTermCurrent^.Data.Name, '            ', '   Page numbers : ');
             For I := Low(SubTermCurrent^.Data.PageArray) To High(SubTermCurrent^.Data.PageArray) Do
                 Write(SubTermCurrent^.Data.PageArray[I], ' ');
             Writeln;
             SubTermSubTermCurrent := SubTermCurrent.Data.SubTerms;
             While SubTermSubTermCurrent <> Nil Do
             Begin
-                Write('       Подтермин: ', SubTermSubTermCurrent^.Data.Name, #9, '   Номера страниц : ');
+                Write('       Subterminal: ', SubTermSubTermCurrent^.Data.Name, #9, '   Page numbers : ');
                 For I := Low(SubTermSubTermCurrent^.Data.PageArray) To High(SubTermSubTermCurrent^.Data.PageArray) Do
                     Write(SubTermSubTermCurrent^.Data.PageArray[I], ' ');
                 Writeln;
@@ -319,7 +318,7 @@ Begin
             IsCorrect := False;
         End;
         If Not IsCorrect Then
-            Writeln('Error! Input number from ', MIN_MENU_CHOICE, ' до ', MAX_MENU_CHOICE, ' или ', ExitSymb, '!');
+            Writeln('Error! Input number from ', MIN_MENU_CHOICE, ' to ', MAX_MENU_CHOICE, ' or ', ExitSymb, '!');
     Until IsCorrect;
     InputChoice := Ch;
 End;
@@ -328,46 +327,44 @@ Procedure AddSubTermToSubTerm(Var Index: PTermNode);
 Var
     TermName, SubTermName, SubTermSubName: String;
     TermNode, SubTermNode: PTermNode;
-    SubTermHead, SubTermSubHead: PTermNode;
-    PageNumber: Integer;
-    HashName: UInt64;
+    SubTermSubHead: PTermNode;
     PageArr: ArrInteger;
     Page: UInt64;
 Begin
 
-    Writeln('Введите название термина в подтермин которого Вы хотите добавть подтермин: ');
+    Writeln('Enter the name of the term under which you want to add a subtermin: ');
     While True Do
     Begin
         Readln(TermName);
         TermNode := FindTermByHash(Index, SimpleHash(TermName));
         If TermNode = Nil Then
-            Writeln('Данного термина не существует')
+            Writeln('This term does not exist')
         Else
             Break;
     End;
 
-    Writeln('Введите название подтермина в который Вы хотите добавить подтермин: ');
+    Writeln('Enter the name of the subtermin to which you want to add the subtermin: ');
     While True Do
     Begin
         Readln(SubTermName);
         SubTermNode := FindTermByHash(TermNode^.Data.SubTerms, SimpleHash(SubTermName));
         If SubTermNode = Nil Then
-            Writeln('Данного подтермина не существует')
+            Writeln('This subterminal does not exist')
         Else
             Break;
     End;
 
-    Writeln('Введите название подтермина который Вы хотите добавить: ');
+    Writeln('Enter the name of the subterminal you want to add: ');
     While True Do
     Begin
         Readln(SubTermSubName);
         If Check(SimpleHash(SubTermSubName), SubTermNode^.Data.SubTerms) = True Then
             Break
         Else
-            Writeln('Такой подтермин уже существует');
+            Writeln('Such a sub-term already exists');
     End;
     Page := 176543;
-    Write('Введите номера страниц(0 выход): ');
+    Write('Enter the page numbers(0 output): ');
     While Page <> 0 Do
     Begin
         If Page <> 176543 Then
@@ -385,7 +382,7 @@ Begin
         SubTermNode^.Data.SubTerms := SubTermSubHead;
     End
     Else
-        Writeln('ПодТермин "', SubTermSubName, '" не найден в предметном указателе.');
+        Writeln('Subterminal "', SubTermSubName, '" not found in the subject index.');
 End;
 
 Procedure BubbleSort(Var Arr: Array Of Integer);
@@ -393,17 +390,13 @@ Var
     I, J, Temp: Integer;
 Begin
     For I := Low(Arr) To High(Arr) - 1 Do
-    Begin
         For J := Low(Arr) To High(Arr) - 1 Do
-        Begin
             If Arr[J] > Arr[J + 1] Then
             Begin
                 Temp := Arr[J];
                 Arr[J] := Arr[J + 1];
                 Arr[J + 1] := Temp;
             End;
-        End;
-    End;
 End;
 
 Procedure EditSubTerm(Var Index: PTermNode);
@@ -414,35 +407,35 @@ Var
     NameHash: UInt64;
     TermNode, TermSubNode: PTermNode;
 Begin
-    Writeln('Введите название термина в котором Вы хотите отредактировать подтермин: ');
+    Writeln('Enter the name of the term in which you want to edit the subtermin: ');
     While True Do
     Begin
         Readln(Str);
         TermNode := FindTermByHash(Index, SimpleHash(Str));
         If TermNode = Nil Then
-            Writeln('Данного термина не существует')
+            Writeln('This term does not exist')
         Else
             Break;
     End;
 
-    Writeln('Введите название подтермина который Вы хотите отредактировать: ');
+    Writeln('Enter the name of the subterminal that you want to edit: ');
     While True Do
     Begin
         Readln(Str);
         If Not Check(SimpleHash(Str), TermNode^.Data.SubTerms) Then
             Break
         Else
-            Writeln('Такого подтермина не существует');
+            Writeln('There is no such subterminal');
     End;
 
     TermSubNode := FindTermByHash(TermNode^.Data.SubTerms, SimpleHash(Str));
 
-    Writeln('Выберите что Вы хотите отредактировать:  1: название; 2: номер страницы ');
+    Writeln('Select what you want to edit: 1: title; 2: page number');
     N := InputNUmber;
     Case N Of
         1:
             Begin
-                Writeln('Введите новое название подтермина');
+                Writeln('Enter a new name for the subterminal');
 
                 While True Do
                 Begin
@@ -451,7 +444,7 @@ Begin
                     If Check(NameHash, Index) = True Then
                         Break
                     Else
-                        Writeln('Подтермин уже существует');
+                        Writeln('The term already exists');
                 End;
 
                 TermSubNode^.Data.Name := Str;
@@ -461,8 +454,8 @@ Begin
 
         2:
             Begin
-                Str := 'Выберите что Вы хотите делать:' + #13#10 + '-1- добавить номер страницы' + #13#10 + '-2- удалить номер старницы' +
-                    #13#10 + '-3- изменить номер страницы' + #13#10;
+                Str := 'Choose what you want to do:' + #13#10 + '-1- add a page number' + #13#10 + '-2- delete the starnitsa number' +
+                    #13#10 + '-3- change the page number' + #13#10;
                 Writeln(Str);
                 N := InputNUmber;
 
@@ -473,7 +466,7 @@ Begin
                             For I := Low(TermSubNode^.Data.PageArray) To High(TermSubNode^.Data.PageArray) Do
                                 Write('  ', TermSubNode^.Data.PageArray[I]);
                             Writeln;
-                            Writeln('Введите номер который вы хотите добавить');
+                            Writeln('Enter the number you want to add');
                             N := InputNUmber;
 
                             SetLength(TermSubNode^.Data.PageArray, Length(TermSubNode^.Data.PageArray) + 1);
@@ -486,7 +479,7 @@ Begin
                             For I := Low(TermSubNode^.Data.PageArray) To High(TermSubNode^.Data.PageArray) Do
                                 Write('  ', TermSubNode^.Data.PageArray[I]);
                             Writeln;
-                            Writeln('Введите номер который вы хотите удалить');
+                            Writeln('Enter the number you want to delete');
                             N := InputNUmber;;
                             Len := Length(TermSubNode^.Data.PageArray);
                             Found := False;
@@ -507,7 +500,7 @@ Begin
 
                             If Not Found Then
                             Begin
-                                Writeln('Ошибка: Элемент не найден в массиве.');
+                                Writeln('Error: The element was not found in the array.');
                                 Exit;
                             End;
 
@@ -521,7 +514,7 @@ Begin
                             For I := Low(TermSubNode^.Data.PageArray) To High(TermSubNode^.Data.PageArray) Do
                                 Write('  ', TermSubNode^.Data.PageArray[I]);
                             Writeln;
-                            Writeln('   Введите номер который вы хотите изменить');
+                            Writeln('   Enter the number you want to change');
                             N := InputNUmber;
 
                             Found := False;
@@ -536,14 +529,14 @@ Begin
 
                             If Not Found Then
                             Begin
-                                Writeln('Ошибка: Элемент не найден в массиве.');
+                                Writeln('Error: The element was not found in the array.');
                                 Exit;
                             End;
 
                             If Found Then
                             Begin
 
-                                Writeln('Введите новое значение номера страницы: ');
+                                Writeln('Enter a new value for the page number: ');
                                 NewValue := InputNUmber;
                                 For I := Low(TermSubNode^.Data.PageArray) To High(TermSubNode^.Data.PageArray) Do
                                 Begin
@@ -576,46 +569,46 @@ Var
     Len, NewValue, I, J: Integer;
     TermNode, TermSubNode, TermSubSubNode: PTermNode;
 Begin
-    Writeln('Введите название термина в котором Вы хотите отредактировать подтермин в подтермине: ');
+    Writeln('Enter the name of the term in which you want to edit the subtermin in the subtermin: ');
     While True Do
     Begin
         Readln(Str);
         TermNode := FindTermByHash(Index, SimpleHash(Str));
         If TermNode = Nil Then
-            Writeln('Данного термина не существует')
+            Writeln('This term does not exist')
         Else
             Break;
     End;
 
-    Writeln('Введите название подтермина в которым Вы хотите отредактировать подтермин: ');
+    Writeln('Enter the name of the subtermin in which you want to edit the subtermin: ');
     While True Do
     Begin
         Readln(Str);
         TermSubNode := FindTermByHash(TermNode^.Data.SubTerms, SimpleHash(Str));
         If TermSubNode = Nil Then
-            Writeln('Такого подтермина не существует')
+            Writeln('There is no such subterminal')
         Else
             Break;
     End;
 
-    Writeln('Введите название подтермина который Вы хотите отредактировать: ');
+    Writeln('Enter the name of the subterminal that you want to edit:');
     While True Do
     Begin
         Readln(Str);
         If Not Check(SimpleHash(Str), TermSubNode^.Data.SubTerms) Then
             Break
         Else
-            Writeln('Такого подтермина не существует');
+            Writeln('There is no such subterminal');
     End;
 
     TermSubNode := FindTermByHash(TermNode^.Data.SubTerms.Data.SubTerms, SimpleHash(Str));
 
-    Writeln('Выберите что Вы хотите отредактировать:  1: название; 2: номер страницы ');
+    Writeln('Select what you want to edit: 1: title; 2: page number ');
     N := InputNUmber;
     Case N Of
         1:
             Begin
-                Writeln('Введите новое название подтермина');
+                Writeln('Enter a new name for the subterminal');
 
                 While True Do
                 Begin
@@ -624,7 +617,7 @@ Begin
                     If Check(NameHash, Index) = True Then
                         Break
                     Else
-                        Writeln('Подтермин уже существует');
+                        Writeln('The term already exists');
                 End;
 
                 TermSubNode^.Data.Name := Str;
@@ -634,8 +627,8 @@ Begin
 
         2:
             Begin
-                Str := 'Выберите что Вы хотите делать:' + #13#10 + '-1- добавить номер страницы' + #13#10 + '-2- удалить номер старницы' +
-                    #13#10 + '-3- изменить номер страницы' + #13#10;
+                Str := 'Choose what you want to do:' + #13#10 + '-1- add a page number' + #13#10 + '-2- delete the starnitsa number' +
+                    #13#10 + '-3- change the page number' + #13#10;
                 Writeln(Str);
                 N := InputNUmber;
 
@@ -646,7 +639,7 @@ Begin
                             For I := Low(TermSubNode^.Data.PageArray) To High(TermSubNode^.Data.PageArray) Do
                                 Write('  ', TermSubNode^.Data.PageArray[I]);
                             Writeln;
-                            Writeln('Введите номер который вы хотите добавить');
+                            Writeln('Enter the number you want to add');
                             N := InputNUmber;
 
                             SetLength(TermSubNode^.Data.PageArray, Length(TermSubNode^.Data.PageArray) + 1);
@@ -659,7 +652,7 @@ Begin
                             For I := Low(TermSubNode^.Data.PageArray) To High(TermSubNode^.Data.PageArray) Do
                                 Write('  ', TermSubNode^.Data.PageArray[I]);
                             Writeln;
-                            Writeln('Введите номер который вы хотите удалить');
+                            Writeln('Enter the number you want to delete');
                             N := InputNUmber;
                             Len := Length(TermSubNode^.Data.PageArray);
                             Found := False;
@@ -680,7 +673,7 @@ Begin
 
                             If Not Found Then
                             Begin
-                                Writeln('Ошибка: Элемент не найден в массиве.');
+                                Writeln('Error: The element was not found in the array.');
                                 Exit;
                             End;
 
@@ -694,7 +687,7 @@ Begin
                             For I := Low(TermSubNode^.Data.PageArray) To High(TermSubNode^.Data.PageArray) Do
                                 Write('  ', TermSubNode^.Data.PageArray[I]);
                             Writeln;
-                            Writeln('   Введите номер который вы хотите изменить');
+                            Writeln('   Enter the number you want to change');
                             N := InputNUmber;
 
                             Found := False;
@@ -709,14 +702,14 @@ Begin
 
                             If Not Found Then
                             Begin
-                                Writeln('Ошибка: Элемент не найден в массиве.');
+                                Writeln('Error: The element was not found in the array.');
                                 Exit;
                             End;
 
                             If Found Then
                             Begin
 
-                                Writeln('Введите новое значение номера страницы: ');
+                                Writeln('Enter a new value for the page number: ');
                                 NewValue := InputNUmber;
                                 For I := Low(TermSubNode^.Data.PageArray) To High(TermSubNode^.Data.PageArray) Do
                                 Begin
@@ -749,7 +742,7 @@ Var
     I, J, Len, NewValue: Integer;
     Found: Boolean;
 Begin
-    Writeln('Выберите термин который Вы хотите отредактировать: ');
+    Writeln('Select the term you want to edit: ');
 
     While True Do
     Begin
@@ -758,17 +751,17 @@ Begin
         If Not Check(NameHash, Index) Then
             Break
         Else
-            Writeln('Такого термина не существует.');
+            Writeln('There is no such term.');
     End;
 
     TermNode := FindTermByHash(Index, SimpleHash(Str));
 
-    Writeln('Выберите что Вы хотите отредактировать:  1: название; 2: номер страницы ');
+    Writeln('Select what you want to edit: 1: title; 2: page number ');
     N := InputNUmber;
     Case N Of
         1:
             Begin
-                Writeln('Введите новое название термина');
+                Writeln('Enter a new name for the term');
 
                 While True Do
                 Begin
@@ -777,7 +770,7 @@ Begin
                     If Check(NameHash, Index) = True Then
                         Break
                     Else
-                        Writeln('Термин уже существует');
+                        Writeln('The term already exists');
                 End;
                 TermNode^.Data.Name := Str;
                 TermNode^.Data.Hash := SimpleHash(Str);
@@ -786,8 +779,8 @@ Begin
 
         2:
             Begin
-                Str := 'Выберите что Вы хотите делать:' + #13#10 + '-1- добавить номер страницы' + #13#10 + '-2- удалить номер старницы' +
-                    #13#10 + '-3- изменить номер страницы' + #13#10;
+                Str := 'Choose what you want to do:' + #13#10 + '-1- add a page number' + #13#10 + '-2- delete the starnitsa number' +
+                    #13#10 + '-3- change the page number' + #13#10;
                 Writeln(Str);
                 N := InputNUmber;
 
@@ -798,7 +791,7 @@ Begin
                             For I := Low(TermNode^.Data.PageArray) To High(TermNode^.Data.PageArray) Do
                                 Write('  ', TermNode^.Data.PageArray[I]);
                             Writeln;
-                            Writeln('Введите номер который вы хотите добавить');
+                            Writeln('Enter the number you want to add');
                             N := InputNUmber;
 
                             SetLength(TermNode^.Data.PageArray, Length(TermNode^.Data.PageArray) + 1);
@@ -811,7 +804,7 @@ Begin
                             For I := Low(TermNode^.Data.PageArray) To High(TermNode^.Data.PageArray) Do
                                 Write('  ', TermNode^.Data.PageArray[I]);
                             Writeln;
-                            Writeln('Введите номер который вы хотите удалить');
+                            Writeln('Enter the number you want to delete');
                             N := InputNUmber;
                             Len := Length(TermNode^.Data.PageArray);
                             Found := False;
@@ -832,7 +825,7 @@ Begin
 
                             If Not Found Then
                             Begin
-                                Writeln('Ошибка: Элемент не найден в массиве.');
+                                Writeln('Error: The element was not found in the array.');
                                 Exit;
                             End;
 
@@ -846,7 +839,7 @@ Begin
                             For I := Low(TermNode^.Data.PageArray) To High(TermNode^.Data.PageArray) Do
                                 Write('  ', TermNode^.Data.PageArray[I]);
                             Writeln;
-                            Writeln('   Введите номер который вы хотите изменить');
+                            Writeln('   Enter the number you want to change');
                             N := InputNUmber;
 
                             Found := False;
@@ -861,14 +854,14 @@ Begin
 
                             If Not Found Then
                             Begin
-                                Writeln('Ошибка: Элемент не найден в массиве.');
+                                Writeln('Error: The element was not found in the array.');
                                 Exit;
                             End;
 
                             If Found Then
                             Begin
 
-                                Writeln('Введите новое значение номера страницы: ');
+                                Writeln('Enter a new value for the page number: ');
                                 NewValue := InputNUmber;
                                 For I := Low(TermNode^.Data.PageArray) To High(TermNode^.Data.PageArray) Do
                                 Begin
@@ -897,8 +890,8 @@ Var
     Str: String;
     Choice: Integer;
 Begin
-    Str := 'Выберите что Вы хотите редактировать:' + #13#10 + '- 1 - термин' + #13#10 + '- 2 - подтермин' + #13#10 +
-        '- 3 - педтермин педтермина' + #13#10;
+    Str := 'Select what you want to edit:' + #13#10 + '- 1 - term' + #13#10 + '- 2 - subterminal' + #13#10 +
+        '- 3 - subterminal subterminal' + #13#10;
     Writeln(Str);
     Choice := InputNUmber;
     Case Choice Of
@@ -1012,15 +1005,14 @@ Procedure SortSubTerm(Var Index: PTermNode);
 Var
     TermName: String;
     TermNode: PTermNode;
-    I: Integer;
 Begin
 
-    Writeln('Введите название термина в котором вы хотите отсортировать подтермины ');
+    Writeln('Enter the name of the term in which you want to sort the subtermines ');
     Readln(TermName);
     TermNode := FindTermByHash(Index, SimpleHash(TermName));
     If TermNode = Nil Then
     Begin
-        Writeln('Данного термина не существует');
+        Writeln('This term does not exist');
         Exit;
     End;
     SortTerm(TermNode.Data.SubTerms);
@@ -1031,15 +1023,14 @@ Procedure SortSubSubTerm(Var Index: PTermNode);
 Var
     TermName: String;
     TermNode: PTermNode;
-    I: Integer;
 Begin
 
-    Writeln('Введите название термина в подтерминах которого вы хотите отсортировать подтермины ');
+    Writeln('Enter the name of the term in the subtermines of which you want to sort the subtermines ');
     Readln(TermName);
     TermNode := FindTermByHash(Index, SimpleHash(TermName));
     If TermNode <> Nil Then
     Begin
-        Writeln('Введите название подтермина в котором вы хотите отсортировать подтермины ');
+        Writeln('Enter the name of the subterminal in which you want to sort the subterminals ');
         Readln(TermName);
         TermNode := FindTermByHash(TermNode^.Data.SubTerms, SimpleHash(TermName));
         If TermNode <> Nil Then
@@ -1049,7 +1040,7 @@ Begin
     End
     Else
     Begin
-        Writeln('Данного термина не существует');
+        Writeln('This term does not exist');
         Exit;
     End;
 
@@ -1059,10 +1050,9 @@ Procedure SortSomethings(Var Index: PTermNode);
 Var
     Str: String;
     Choice: Integer;
-    I: Integer;
 Begin
-    Str := 'Выберите что Вы хотите  отсортировать:' + #13#10 + '- 1 - термины' + #13#10 + '- 2 - подтермины' + #13#10 +
-        '- 3 - подтермины подтермина' + #13#10;
+    Str := 'Select what you want to sort:' + #13#10 + '- 1 - terms' + #13#10 + '- 2 - subtermines' + #13#10 +
+        '- 3 - subterminal subterminal' + #13#10;
     Writeln(Str);
     Choice := InputNUmber;
     Case Choice Of
@@ -1174,30 +1164,28 @@ End;
 
 Procedure DeleteSubTerm(Var Index: PTermNode);
 Var
-    N: Integer;
     Str: String;
-    NameHash: UInt64;
     TermNode, TermSubNode: PTermNode;
 Begin
-    Writeln('Введите название термина в котором Вы хотите удалить подтермин: ');
+    Writeln('Enter the name of the term in which you want to delete the subtermin: ');
     While True Do
     Begin
         Readln(Str);
         TermNode := FindTermByHash(Index, SimpleHash(Str));
         If TermNode = Nil Then
-            Writeln('Данного термина не существует')
+            Writeln('This term does not exist')
         Else
             Break;
     End;
 
-    Writeln('Введите название подтермина который Вы хотите удалить: ');
+    Writeln('Enter the name of the subterminal that you want to delete: ');
     While True Do
     Begin
         Readln(Str);
         If Not Check(SimpleHash(Str), TermNode^.Data.SubTerms) Then
             Break
         Else
-            Writeln('Такого подтермина не существует');
+            Writeln('There is no such subterminal');
     End;
 
     TermSubNode := FindTermByHash(TermNode^.Data.SubTerms, SimpleHash(Str));
@@ -1208,41 +1196,39 @@ End;
 
 Procedure DeleteSubSubTerm(Var Index: PTermNode);
 Var
-    N: Integer;
     Str: String;
-    NameHash: UInt64;
-    TermNode, TermSubNode, TermSubSubNode: PTermNode;
+    TermNode, TermSubNode: PTermNode;
 Begin
-    Writeln('Введите название термина в котором Вы хотите удалить подтермин в подтермине: ');
+    Writeln('Enter the name of the term in which you want to delete the subtermin in the subtermin: ');
     While True Do
     Begin
         Readln(Str);
         TermNode := FindTermByHash(Index, SimpleHash(Str));
         If TermNode = Nil Then
-            Writeln('Данного термина не существует')
+            Writeln('This term does not exist')
         Else
             Break;
     End;
 
-    Writeln('Введите название подтермина в котором Вы хотите удалить подтермин: ');
+    Writeln('Enter the name of the subtermin in which you want to delete the subtermin: ');
     While True Do
     Begin
         Readln(Str);
         TermSubNode := FindTermByHash(TermNode^.Data.SubTerms, SimpleHash(Str));
         If TermSubNode = Nil Then
-            Writeln('Такого подтермина не существует')
+            Writeln('There is no such subterminal')
         Else
             Break;
     End;
 
-    Writeln('Введите название подтермина который Вы хотите удалить: ');
+    Writeln('Enter the name of the subterminal that you want to delete: ');
     While True Do
     Begin
         Readln(Str);
         If Not Check(SimpleHash(Str), TermSubNode^.Data.SubTerms) Then
             Break
         Else
-            Writeln('Такого подтермина не существует');
+            Writeln('There is no such subterminal');
     End;
 
     TermSubNode := FindTermByHash(TermNode^.Data.SubTerms.Data.SubTerms, SimpleHash(Str));
@@ -1253,12 +1239,11 @@ End;
 
 Procedure DeleteTerm(Var Index: PTermNode);
 Var
-    N: Integer;
     Str: String;
     NameHash: UInt64;
     TermNode: PTermNode;
 Begin
-    Writeln('Выберите термин который Вы хотите удалить: ');
+    Writeln('Select the term you want to delete: ');
 
     While True Do
     Begin
@@ -1267,7 +1252,7 @@ Begin
         If Not Check(NameHash, Index) Then
             Break
         Else
-            Writeln('Такого термина не существует.');
+            Writeln('There is no such term.');
     End;
 
     TermNode := FindTermByHash(Index, SimpleHash(Str));
@@ -1281,8 +1266,8 @@ Var
     Str: String;
     Choice: Integer;
 Begin
-    Str := 'Выберите что Вы хотите удалить:' + #13#10 + '- 1 - термин' + #13#10 + '- 2 - подтермин' + #13#10 +
-        '- 3 - подтермин подтермина' + #13#10;
+    Str := 'Select what you want to delete:' + #13#10 + '- 1 - term' + #13#10 + '- 2 - subterminal' + #13#10 +
+        '- 3 - under the term subterminal' + #13#10;
     Writeln(Str);
     Choice := InputNUmber;
     Case Choice Of
@@ -1299,13 +1284,13 @@ End;
 
 Procedure FindForTermBySubTerm(Var Index: PTermNode);
 Var
-    Str1, Str2: String;
-    NameHash1, NameHash2: UInt64;
-    TempNode1, TempNode2, Curr: PTermNode;
+    Str2: String;
+    NameHash2: UInt64;
+    Curr: PTermNode;
     I: Integer;
 Begin
 
-    Writeln('Введите подтермин по которому вы хотите найти термин: ');
+    Writeln('Type under the term by which you want to find the term: ');
     Readln(Str2);
     NameHash2 := SimpleHash(Str2);
     Curr := Index;
@@ -1314,7 +1299,7 @@ Begin
         Begin
             If FindTermByHash(Curr^.Data.SubTerms, NameHash2) <> Nil Then
             Begin
-                Write('Термин: ', Curr^.Data.Name, #9, '   Номер страниц : ');
+                Write('Term: ', Curr^.Data.Name, #9, '   Page number : ');
                 For I := Low(Curr^.Data.PageArray) To High(Curr^.Data.PageArray) Do
                     Write(Curr^.Data.PageArray[I], ' ');
                 Writeln;
@@ -1323,7 +1308,7 @@ Begin
         End
     Else
     Begin
-        Writeln('Подтермин не найден!');
+        Writeln('The term was not found under!');
         Exit;
     End;
 
@@ -1333,12 +1318,12 @@ End;
 
 Procedure FindForSubtermByTerm(Var Index: PTermNode);
 Var
-    Str1, Str2: String;
-    NameHash1, NameHash2: UInt64;
+    Str1: String;
+    NameHash1: UInt64;
     TempNode1, TempNode2: PTermNode;
     I: Integer;
 Begin
-    Writeln('Введите термин по которому Вы хотите найти подтермины: ');
+    Writeln('Enter the term by which you want to find the subtermines: ');
     Readln(Str1);
     NameHash1 := SimpleHash(Str1);
 
@@ -1346,7 +1331,7 @@ Begin
 
     If TempNode1 <> Nil Then
     Begin
-        Write('Термин: ', TempNode1^.Data.Name, #9, '   Номер страниц : ');
+        Write('Term: ', TempNode1^.Data.Name, #9, '   Page number : ');
         For I := Low(TempNode1^.Data.PageArray) To High(TempNode1^.Data.PageArray) Do
             Write(TempNode1^.Data.PageArray[I], ' ');
         Writeln;
@@ -1355,7 +1340,7 @@ Begin
         Begin
 
             Begin
-                Write('    подтермин: ', TempNode2^.Data.Name, #9, '   Номер страницы : ');
+                Write('    subterminal: ', TempNode2^.Data.Name, #9, '   Page Number : ');
                 For I := Low(TempNode2^.Data.PageArray) To High(TempNode2^.Data.PageArray) Do
                     Write(TempNode2^.Data.PageArray[I], ' ');
             End;
@@ -1367,7 +1352,7 @@ Begin
     End
     Else
     Begin
-        Writeln('Подтермин не найден!');
+        Writeln('The term was not found under!');
 
     End;
 
@@ -1375,111 +1360,61 @@ Begin
 
 End;
 
-Procedure SortByNumber(Index: PTermNode);
+Procedure SortByNumbers(Var Index: PTermNode);
 Var
-    MaxPage: Integer;
-    Curr, CurrSub, CurrSubSub: PTermNode;
-    I, J, K: Integer;
-    PageArr: Array Of Array Of String;
-    IsWrite: Boolean;
+    ArrayOfStrings: Array[1..10000] Of String;
+    ArrayOfNumbers: Array[1..10000] Of Integer;
+    ArrayOfHash: Array[1..10000] Of UInt64;
+    ArrayOfPages: Array[1..10000] Of Integer;
+    ArrayOfPt: Array[1..10000] Of PTermNode;
+    ArrayOfNum: Array[1..10000] Of ArrInteger;
+    Temp1: String;
+    Temp2: Integer;
+    Temp3: UInt64;
+    Current1, Current2: PTermNode;
+    I, J, Count: Integer;
 Begin
-    //поиск максимальной страницы
-    Curr := Index;
-    While Curr <> Nil Do
+    Current1 := Index;
+    Current2 := Index;
+    Count := 1;
+    I := 1;
+    J := 1;
+    While Current1 <> nil Do
     Begin
-        For I := Low(Curr^.Data.PageArray) To High(Curr^.Data.PageArray) Do
-            If MaxPage < Curr^.Data.PageArray[I] Then
-                MaxPage := Curr^.Data.PageArray[I];
-
-        CurrSub := Curr^.Data.SubTerms;
-        While CurrSub <> Nil Do
-        Begin
-            For I := Low(CurrSub^.Data.PageArray) To High(CurrSub^.Data.PageArray) Do
-                If MaxPage < CurrSub^.Data.PageArray[I] Then
-                    MaxPage := CurrSubSub^.Data.PageArray[I];
-
-            CurrSubSub := CurrSub^.Data.SubTerms;
-            While CurrSubSub <> NIl Do
-            Begin
-                For I := Low(CurrSubSub^.Data.PageArray) To High(CurrSubSub^.Data.PageArray) Do
-                    If MaxPage < CurrSubSub^.Data.PageArray[I] Then
-                        MaxPage := CurrSubSub^.Data.PageArray[I];
-                CurrSubSub := CurrSubSub^.Next;
-            End;
-
-            CurrSub := CurrSub^.Next;
-        End;
-
-        Curr := Curr^.Next;
+        ArrayOfNumbers[Count] := Count;
+        ArrayOfStrings[Count] := Current1.Data.Name;
+        ArrayOfPages[Count] := Current1.Data.PageNumber;
+        ArrayOfHash[Count] := Current1.Data.Hash;
+        ArrayOfPt[Count] := Current1.Data.SubTerms;
+        ArrayOfNum[Count] := Current1.Data.PageArray;
+        Inc(Count);
+        Current1 := Current1.Next;
     End;
-
-    SetLength(PageArr, MaxPage, 0);
-
-    //запись терминов в массив где индексы -- страницы, элементы -- массивы с терминами
-    Curr := Index;
-    While Curr <> Nil Do
+    For I := 1 To Count - 2 Do
+        For J := I + 1 To Count - 1 Do
+            If ArrayOfNum[I][0] > ArrayOfNum[J][0] Then
+            Begin
+                Temp2 := ArrayOfNumbers[I];
+                ArrayOfNumbers[I] := ArrayOfNumbers[J];
+                ArrayOfNumbers[J] := Temp2;
+            End;
+    I := 1;
+    While Current2 <> nil Do
     Begin
-        For I := Low(Curr^.Data.PageArray) To High(Curr^.Data.PageArray) Do
-        Begin
-            //расширение и вставка термина
-            SetLength(PageArr[Curr^.Data.PageArray[I]], Length(PageArr[Curr^.Data.PageArray[I]]) + 1);
-            PageArr[Curr^.Data.PageArray[I]][Length(PageArr[Curr^.Data.PageArray[I]]) - 1] := Curr^.Data.Name;
-        End;
-
-        CurrSub := Curr^.Data.SubTerms;
-        While CurrSub <> Nil Do
-        Begin
-            For I := Low(CurrSub^.Data.PageArray) To High(CurrSub^.Data.PageArray) Do
-            Begin
-                //расширение и вставка термина
-                SetLength(PageArr[CurrSub^.Data.PageArray[I]], Length(PageArr[CurrSub^.Data.PageArray[I]]) + 1);
-                PageArr[CurrSub^.Data.PageArray[I]][Length(PageArr[CurrSub^.Data.PageArray[I]]) - 1] := CurrSub^.Data.Name;
-            End;
-
-            CurrSubSub := CurrSub^.Data.SubTerms;
-            While CurrSubSub <> NIl Do
-            Begin
-                For I := Low(CurrSubSub^.Data.PageArray) To High(CurrSubSub^.Data.PageArray) Do
-                Begin
-                    //расширение и вставка термина
-                    SetLength(PageArr[CurrSubSub^.Data.PageArray[I]], Length(PageArr[CurrSubSub^.Data.PageArray[I]]) + 1);
-                    PageArr[CurrSubSub^.Data.PageArray[I]][Length(PageArr[CurrSubSub^.Data.PageArray[I]]) - 1] := CurrSubSub^.Data.Name;
-                End;
-                CurrSubSub := CurrSubSub^.Next;
-            End;
-
-            CurrSub := CurrSub^.Next;
-        End;
-
-        Curr := Curr^.Next;
+        Current2^.Data.Name := ArrayOfStrings[ArrayOfNumbers[I]];
+        Current2^.Data.Hash := ArrayOfHash[ArrayOfNumbers[I]];
+        Current2^.Data.PageNumber := ArrayOfPages[ArrayOfNumbers[I]];
+        Current2^.Data.SubTerms := ArrayOfPt[ArrayOfNumbers[I]];
+        Current2^.Data.PageArray := ArrayOfNum[ArrayOfNumbers[I]];
+        Inc(I);
+        Current2 := Current2.Next;
     End;
-
-    //вывод по строкам
-    For I := Low(PageArr) To High(PageArr) Do
-        For J := Low(PageArr[I]) To High(PageArr[I]) Do
-            If J = 0 Then
-                //можно графически вывод поменять
-                Writeln(IntToStr(I), ' стр. -- ', PageArr[I][J])
-            Else
-            Begin
-                IsWrite := True;
-                For K := 0 To J - 1 Do
-                    If PageArr[I][J] = PageArr[I][K] Then
-                        IsWrite := False;
-                If IsWrite Then
-                    //можно графически вывод поменять
-                    Writeln(IntToStr(I), ' стр. -- ', PageArr[I][J]);
-            End;
-
-    Writeln('--------------------------------------------------');
-
 End;
 
 Var
     Choice: Char;
     Index: PTermNode;
-    I: Integer;
-    Str, ExitSymb: String;
+    ExitSymb: String;
 
 Begin
     ExitSymb := 'Q';
@@ -1499,7 +1434,7 @@ Begin
             '3':
                 AddSubTermToSubTerm(Index);
             '4':
-                SortByNumber(Index);
+                SortByNumbers(Index);
             '5':
                 SortSomethings(Index);
             '6':
