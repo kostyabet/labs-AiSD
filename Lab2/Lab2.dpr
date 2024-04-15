@@ -1419,7 +1419,7 @@ Var
 Begin
     ExitSymb := 'Q';
     WriteLn('Made by Kostya Betenya, gr. 351005.');
-    WriteLn('Copyrigth 2024 divmone & invertedfool '#13#10);
+    //WriteLn('Copyrigth 2024 divmone & invertedfool '#13#10);
     Repeat
         WriteLn('Menu:', #13#10'1. Add a term;', #13#10'2. Add a subterminal;', #13#10'3. Add a subtermin for a subtermin;',
             #13#10'4. Sort by numbers;', #13#10'5. Alphabetically sorted;', #13#10'6. Search for a subterminal by term;',
